@@ -26,10 +26,12 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // do your magic!
   users.getById(req.params.id)
+    
 });
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts', validateUserId, (req, res) => {
   // do your magic!
+
 });
 
 router.delete('/:id', (req, res) => {

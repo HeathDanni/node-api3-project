@@ -1,5 +1,5 @@
 const express = require('express');
-
+const posts = require("./postRouter");
 const router = express.Router();
 
 router.get('/', (req, res) => {
