@@ -44,6 +44,22 @@ router.put('/:id', (req, res) => {
 
 function validateUserId(req, res, next) {
   // do your magic!
+  users.getById(req.params.id)
+    .then((user) => {
+      if (user) {
+        next()
+      } else {
+        res.status(400).json({
+          message: "invalid user id"
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(500).json({
+        message: "Error retrieving user"
+      })
+    })
 }
 
 function validateUser(req, res, next) {
