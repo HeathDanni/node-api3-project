@@ -1,5 +1,5 @@
 const express = require('express');
-
+const users = require("./userDb.js");
 const router = express.Router();
 
 router.post('/', (req, res) => {
@@ -12,10 +12,20 @@ router.post('/:id/posts', (req, res) => {
 
 router.get('/', (req, res) => {
   // do your magic!
+  users.get()
+    .then((users) => {
+      res.status(200).json(users)
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Could not get users"
+      })
+    })
 });
 
 router.get('/:id', (req, res) => {
   // do your magic!
+  users.getById(req.params.id)
 });
 
 router.get('/:id/posts', (req, res) => {
