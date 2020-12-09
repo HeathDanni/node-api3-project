@@ -2,14 +2,14 @@ const express = require('express');
 const users = require('./userDb')
 const router = express.Router();
 
-router.post('/', validateUser(), (req, res) => {
+router.post('/users', validateUser(), (req, res) => {
     
 });
 
-router.post('/:id/posts', validateUserId(), validatePost(), (req, res) => {
+router.post('/users/:id/posts', validateUserId(), validatePost(), (req, res) => {
 });
 
-router.get('/', (req, res) => {
+router.get('/users', (req, res) => {
     users.get()
       .then((users) => {
         res.status(200).json(users)
@@ -22,11 +22,11 @@ router.get('/', (req, res) => {
       })
 });
 
-router.get('/:id', validateUserId(), (req, res) => {
+router.get('/users/:id', validateUserId(), (req, res) => {
     res.status(200).json(req.user)
 });
 
-router.get('/:id/posts', validateUserId(), (req, res) => {
+router.get('/users/:id/posts', validateUserId(), (req, res) => {
     users.getUserPosts(req.user)
       .then((posts) => {
         res.status(200).json(posts)
@@ -37,7 +37,7 @@ router.get('/:id/posts', validateUserId(), (req, res) => {
       })
 });
 
-router.delete('/:id', validateUserId(), (req, res) => {
+router.delete('/users/:id', validateUserId(), (req, res) => {
     users.remove(req.user)
       .then((user) => {
         res.status(200).json({
@@ -51,7 +51,7 @@ router.delete('/:id', validateUserId(), (req, res) => {
       })
 });
 
-router.put('/:id', validateUserId(), (req, res) => {
+router.put('/users/:id', validateUserId(), (req, res) => {
     users.update(req.user, req.body)
       .then((changes) => {
         res.status(200).json(changes.length)

@@ -3,35 +3,30 @@ const posts = require('./postDb');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/posts', (req, res) => {
   posts.get()
     .then((post) => {
-      if (!post) {
-        return res.status(404).json({
-          message: "this user has no posts"
-        })
-      }
-      return res.status(200).json(post)
-    })
+        return res.status(200).json(post)
     .catch((err) => {
       console.log(err)
       res.status(500).json({
-        message: "could not retrieve user posts"
+        message: "could not retrieve posts"
       })
     })
   }
-);
-
-router.get('/:id', (req, res) => {
-  
+)
 });
 
-router.delete('/:id', (req, res) => {
-  // do your magic!
+router.get('/posts/:id', validatePostId(), (req, res) => {
+    res.status(200).json(req.post)
 });
 
-router.put('/:id', (req, res) => {
-  // do your magic!
+router.delete('/posts/:id', validatePostId(), (req, res) => {
+    posts.remove(req.post)
+});
+
+router.put('/posts/:id', validatePostId(), (req, res) => {
+    posts.update(req.post)
 });
 
 // custom middleware
