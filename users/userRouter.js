@@ -2,11 +2,11 @@ const express = require('express');
 const users = require('./userDb')
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  // do your magic!
+router.post('/', validateUser(), (req, res) => {
+    
 });
 
-router.post('/:id/posts', validateUserId(), (req, res) => {
+router.post('/:id/posts', validateUserId(), validatePost(), (req, res) => {
   // do your magic!
 });
 
@@ -79,8 +79,19 @@ function validateUser() {
   }
 }
 
-function validatePost(req, res, next) {
-  // do your magic!
+function validatePost() {
+  return (req, res, next) => {
+    if (!req.body) {
+      return res.status(400).json({
+        message: "missing post data"
+      })
+    }
+    if (!req.body.text) {
+      return res.status(400).json({
+        message: "missing required text field"
+      })
+    } next()
+  }
 }
 
 module.exports = router;
