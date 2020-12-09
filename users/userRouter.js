@@ -7,20 +7,26 @@ router.post('/', validateUser(), (req, res) => {
 });
 
 router.post('/:id/posts', validateUserId(), validatePost(), (req, res) => {
-  // do your magic!
 });
 
 router.get('/', (req, res) => {
-  // do your magic!
+    users.get()
+      .then((users) => {
+        res.status(200).json(users)
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json({
+          message: "Error in retrieving users"
+        })
+      })
 });
 
 router.get('/:id', validateUserId(), (req, res) => {
-  // do your magic!
     res.status(200).json(req.user)
 });
 
 router.get('/:id/posts', validateUserId(), (req, res) => {
-  // do your magic!
     users.getUserPosts(req.user)
       .then((posts) => {
         res.status(200).json(posts)
@@ -32,11 +38,29 @@ router.get('/:id/posts', validateUserId(), (req, res) => {
 });
 
 router.delete('/:id', validateUserId(), (req, res) => {
-  // do your magic!
+    users.delete(req.user)
+      .then((user) => {
+        res.status(200).json({
+          message: `user ${id} was successfully deleted`
+        })
+      })
+      .then((err) => {
+        res.status(500).json({
+          message: 'user could not be deleted'
+        })
+      })
 });
 
 router.put('/:id', validateUserId(), (req, res) => {
-  // do your magic!
+    users.update(req.user, req.body)
+      .then((changes) => {
+        res.status(200).json(changes.length)
+      })
+      .catch((err) => {
+        res.status(500).json({
+          message: "could not update user"
+        })
+      })
 });
 
 //custom middleware
