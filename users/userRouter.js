@@ -38,10 +38,10 @@ router.get('/:id/posts', validateUserId(), (req, res) => {
 });
 
 router.delete('/:id', validateUserId(), (req, res) => {
-    users.delete(req.user)
+    users.remove(req.user)
       .then((user) => {
         res.status(200).json({
-          message: `user ${id} was successfully deleted`
+          message: `user was successfully deleted`
         })
       })
       .then((err) => {
@@ -76,6 +76,7 @@ function validateUserId() {
             res.status(404).json({
               message: "invalid user id",
             })
+            next()
           }
         }) 
         .catch((err) => {
